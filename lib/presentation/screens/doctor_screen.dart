@@ -1,150 +1,190 @@
-// lib/presentation/screens/doctor_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sapdos_app/core/constants/colors.dart';
-import 'package:sapdos_app/presentation/providers/auth_provider.dart';
-import '../providers/doctor_provider.dart';
+import '../providers/auth_provider.dart';
 
 class DoctorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final doctorProvider = Provider.of<DoctorProvider>(context);
     final authprovider = Provider.of<AuthProvider>(context);
+    var _mediaquery = MediaQuery.of(context);
+    var screenWidth = _mediaquery.size.width;
+    var screenHeight = _mediaquery.size.height;
+
     return Scaffold(
-      appBar: AppBar(
-          title: Text(
-        "Hello! Dr. ${authprovider.getName()}",
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      )),
-      drawer: Container(
-        decoration: const BoxDecoration(
+      backgroundColor: Colors.white,
+      body: Row(
+        children: [
+          // Sidebar
+          Container(
+            width: screenWidth * 0.16 < 300 ? 300 : screenWidth * 0.16,
             color: AppColors.primaryColor,
-            borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(35.0),
-                topRight: Radius.circular(35.0))),
-        height: double.infinity,
-        width: 200,
-        child: const Column(
-          children: [
-            Center(
-              child: Text(
-                "SAPDOS",
-                style: TextStyle(
-                    fontSize: 28, // Adjust the font size as needed
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.backgroundColor),
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'SAPDOS',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                _buildSidebarItem(Icons.dashboard, 'Categories'),
+                _buildSidebarItem(Icons.calendar_today, 'Appointment'),
+                _buildSidebarItem(Icons.chat, 'Chat'),
+                _buildSidebarItem(Icons.settings, 'Settings'),
+                _buildSidebarItem(Icons.logout, 'Logout'),
+              ],
             ),
-            Center(
+          ),
+          // Main Content Area
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ListTile(
-                    leading: Icon(
-                      Icons.category,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      "Category",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                  // Header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Hello!',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Dr. ${authprovider.getName()}",
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage(
+                            'assets/images/doctor.png'), // Replace with actual image path
+                      ),
+                    ],
                   ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.calendar_month,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      "Appointment",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                  const SizedBox(height: 20),
+                  // Statistics
+                  Row(
+                    children: [
+                      _buildStatCard('Pending Appointments', '19/40'),
+                      const SizedBox(width: 20),
+                      _buildStatCard('Completed Appointments', '21/40'),
+                    ],
                   ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.chat,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      "Chat",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.settings,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      "Settings",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      "Logout",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                  const SizedBox(height: 20),
+                  // Appointments List
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        _buildAppointmentItem(
+                            '10:00 AM', 'Patient Name', 'X years', false),
+                        _buildAppointmentItem(
+                            '10:15 AM', 'Patient Name', 'X years', true),
+                        _buildAppointmentItem(
+                            '10:30 AM', 'Patient Name', 'X years', false),
+                        _buildAppointmentItem(
+                            '10:45 AM', 'Patient Name', 'X years', true),
+                        _buildAppointmentItem(
+                            '11:00 AM', 'Patient Name', 'X years', true),
+                        // Add more appointments as needed
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSidebarItem(IconData icon, String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.white),
+          const SizedBox(width: 10),
+          Text(
+            title,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatCard(String title, String count) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.blue.shade100,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              count,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // ListTile(
-            //   title: Text("Appointment"),
-            //   onTap: () {
-            //     // Navigate to appointments
-            //   },
-            // ),
-            // ListTile(
-            //   title: Text("Chat"),
-            //   onTap: () {
-            //     // Navigate to chat
-            //   },
-            // ),
-            // ListTile(
-            //   title: Text("Settings"),
-            //   onTap: () {
-            //     // Navigate to settings
-            //   },
-            // ),
-            // ListTile(
-            //   title: Text("Logout"),
-            //   onTap: doctorProvider.logout,
-            // ),
-            // SizedBox(height: 20),
-            const Text(
-              "Today's Appointments",
-              style: TextStyle(fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget _buildAppointmentItem(
+      String time, String name, String age, bool isCompleted) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Icon(isCompleted ? Icons.check_circle : Icons.schedule,
+              color: isCompleted ? Colors.green : Colors.red),
+          const SizedBox(width: 10),
+          Text(time, style: const TextStyle(fontSize: 18)),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(name, style: const TextStyle(fontSize: 16)),
+                  Text(age, style: const TextStyle(fontSize: 16)),
+                ],
+              ),
             ),
-            const SizedBox(height: 10),
-            const Text("Pending Appointments"),
-            ...doctorProvider.pendingAppointments.map((appointment) {
-              return ListTile(
-                title: Text("${appointment.time} - ${appointment.patientName}"),
-                subtitle: Text("Age: ${appointment.patientAge}"),
-              );
-            }).toList(),
-            const SizedBox(height: 10),
-            const Text("Completed Appointments"),
-            ...doctorProvider.completedAppointments.map((appointment) {
-              return ListTile(
-                title: Text("${appointment.time} - ${appointment.patientName}"),
-                subtitle: Text("Age: ${appointment.patientAge}"),
-              );
-            }).toList(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
