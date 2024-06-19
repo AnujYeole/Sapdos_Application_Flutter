@@ -9,7 +9,6 @@ class DoctorScreen extends StatelessWidget {
     final authprovider = Provider.of<AuthProvider>(context);
     var _mediaquery = MediaQuery.of(context);
     var screenWidth = _mediaquery.size.width;
-    var screenHeight = _mediaquery.size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -103,7 +102,6 @@ class DoctorScreen extends StatelessWidget {
                             '10:45 AM', 'Patient Name', 'X years', true),
                         _buildAppointmentItem(
                             '11:00 AM', 'Patient Name', 'X years', true),
-                        // Add more appointments as needed
                       ],
                     ),
                   ),

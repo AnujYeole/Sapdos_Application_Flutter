@@ -1,4 +1,3 @@
-// lib/presentation/providers/doctor_provider.dart
 import 'package:flutter/material.dart';
 
 class Appointment {
@@ -11,7 +10,7 @@ class Appointment {
 
 class DoctorProvider with ChangeNotifier {
   String _doctorName = '';
-  String get doctorName => _doctorName; // Getter for doctor's name
+  String get doctorName => _doctorName;
 
   setDoctorName(String name) {
     _doctorName = name;
@@ -20,18 +19,14 @@ class DoctorProvider with ChangeNotifier {
 
   List<Appointment> _pendingAppointments = [
     Appointment("9:00 AM", "John Doe", 25),
-    // Add more appointments
   ];
 
   List<Appointment> _completedAppointments = [
     Appointment("8:00 AM", "Jane Smith", 30),
-    // Add more appointments
   ];
 
   List<Appointment> get pendingAppointments => _pendingAppointments;
   List<Appointment> get completedAppointments => _completedAppointments;
 
-  void logout() {
-    // Handle logout
-  }
+  void logout() {}
 }

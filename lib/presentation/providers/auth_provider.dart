@@ -90,7 +90,6 @@ class AuthProvider with ChangeNotifier {
         const SnackBar(content: Text("Invalid credentials")),
       );
     } else {
-      // Set the doctor's name in the DoctorProvider
       Provider.of<DoctorProvider>(context, listen: false)
           .setDoctorName(user["email"]!);
       Navigator.pushReplacementNamed(context, '/doctor');
@@ -98,7 +97,6 @@ class AuthProvider with ChangeNotifier {
   }
 
   void signup(BuildContext context) {
-    // Handle signup
     Navigator.pushReplacementNamed(context, '/doctor');
   }
 }

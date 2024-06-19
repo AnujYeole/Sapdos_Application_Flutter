@@ -12,12 +12,8 @@ class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _mediaquery = MediaQuery.of(context);
-    //var screenWidth = _mediaquery.size.width;
-    // var screenHeight = _mediaquery.size.height;
-    //var adaptivePadding = screenWidth * 0.12;
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
-      //appBar: AppBar(title: Text("Welcome Back")),
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Row(
@@ -38,14 +34,11 @@ class RegistrationScreen extends StatelessWidget {
                 width: _mediaquery.size.width * 0.5 < 500
                     ? 500
                     : _mediaquery.size.width * 0.5,
-                //padding: EdgeInsets.all(adaptivePadding),
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
-                    topLeft:
-                        Radius.circular(20.0), // Adjust the values as needed
-                    bottomLeft:
-                        Radius.circular(20.0), // Adjust the values as needed
+                    topLeft: Radius.circular(20.0),
+                    bottomLeft: Radius.circular(20.0),
                   ),
                   color: Colors.white,
                 ),
@@ -60,7 +53,7 @@ class RegistrationScreen extends StatelessWidget {
                           const Text(
                             "SAPDOS",
                             style: TextStyle(
-                                fontSize: 34, // Adjust the font size as needed
+                                fontSize: 34,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.primaryColor),
                           ),
@@ -70,9 +63,7 @@ class RegistrationScreen extends StatelessWidget {
                           const Text(
                             "Register",
                             style: TextStyle(
-                                fontSize: 24, // Adjust the font size as needed
-
-                                color: AppColors.primaryColor),
+                                fontSize: 24, color: AppColors.primaryColor),
                           ),
                           SizedBox(
                             height: 10,
