@@ -62,14 +62,17 @@ class InitialLoginScreen extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
+                      minimumSize: Size(160, 40),
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/login');
                     },
                     child: const Text(
-                      "     Login     ",
+                      "Login",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 35),
@@ -84,12 +87,13 @@ class InitialLoginScreen extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
+                      minimumSize: Size(160, 40),
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/signup');
                     },
                     child: const Text(
-                      "   Sign-up   ",
+                      "Sign-up",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColors.primaryColor),
